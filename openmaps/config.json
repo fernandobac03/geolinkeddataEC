@@ -1,0 +1,6 @@
+{
+  "endpoint": { 
+       "url" : "http://apolo.utpl.edu.ec:8080/parliament/sparql",
+       "maxResults": 10000
+   }
+}
