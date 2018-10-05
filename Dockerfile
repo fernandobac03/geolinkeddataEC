@@ -25,7 +25,7 @@ RUN (wget -O /tmp/tomcat7.tar.gz http://archive.apache.org/dist/tomcat/tomcat-7/
   rm /tmp/tomcat7.tar.gz)
 
 ### to deploy a specific war to ROOT, uncomment the following 2 lines and specify the appropriate .war
-RUN rm -rf /opt/tomcat/webapps/docs /opt/tomcat/webapps/examples /opt/tomcat/webapps/ROOT
+RUN rm -rf  /opt/tomcat/webapps/docs /opt/tomcat/webapps/examples /opt/tomcat/webapps/ROOT
 RUN mkdir /opt/tomcat/webapps/ROOT 
 ADD / /opt/tomcat/webapps/ROOT/
 

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Linked Data Life Cycle - Especficacion</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="../stupidtable.js?dev"></script>
+        <style type="text/css"> 
+            body {
+                font-family: "Ubuntu", "Trebuchet MS", sans-serif;
+                max-width: 100%;
+            }
+            table {
+                border-collapse: collapse;
+                margin: 1em auto;
+            }
+
+            th, td {
+                padding: 5px 10px;
+                border: 1px solid #999;
+                font-size: 12px;
+            }
+            th {
+                background-color: #eee;
+            }
+            th[data-sort]{
+                cursor:pointer;
+            }
+            /* just some random additional styles for a more real-world situation */
+            #fisttable{
+                max-width: 100%;
+                alignment-adjust: initial;
+                border: 0;
+            }
+            #msg {
+                color: #0a0;
+                text-align: center;
+            }
+            #firsttable2col {
+                font-size: medium;
+                width: 45%;
+            }
+            #firsttable1col {
+                font-size: medium;
+                width: 5%;
+
+            }
+            #headtableleft
+            {
+                width: 40%;
+            }
+            #headtableright
+            {
+                width: 60%;
+            }
+            /* zebra-striping seems to really slow down Opera sometimes */
+            tr:nth-child(even) > td {
+                background-color: #f9f9f7;
+            }
+            tr:nth-child(odd) > td {
+                background-color: #ffffff;
+            }
+            .disabled {
+                opacity: 0.5;
+            }
+            #Fija { 
+                position:absolute; 
+                top:0; 
+                left:0; 
+            }
+
+        </style>
+        <!-- Siguiente stylo Para controlar Circulo de actividades-->
+        <style type="text/css">
+            nav {
+                position: relative;
+                top: 10px;
+                left: 140px;
+                font-family: helvetica, arial;
+            }
+            li {
+                list-style: none;
+            }
+            li > a {
+                position: absolute;
+                text-decoration: none;
+                width:95px;
+                height:80px;
+                border-radius:60%;
+                line-height:9.5em;
+                text-align:center;
+                text-orientation: auto;
+                font-family: helvetica, arial;
+                background-color: #2D6F81;
+            }
+            a[id|="actual"]
+            {
+                font-family: helvetica, arial;
+                background-color: #792F2E;
+
+            }
+            li > a:link, li > a:visited {
+                color: #eee;
+                font-size: 9px;
+
+            }
+            a:hover {
+                font-size: 11px;
+                font-weight: bold;
+            }
+            #droparea { width: 20px; height: 50px; padding: 6%; text-align: center; }
+        </style>         
+    </head>
+    <body>
+
+        <!--
+        PARA CONTROLAR CIRCULO DE ACTIVIDADES LINKED DATA
+        -->
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+        <script>
+            // Your code goes here.
+            $(function() {
+                circle_radius = 80;
+                $links = $('nav ul.gallery li a');
+                total_links = $links.size();
+                $links.each(function(index) {
+                    $(this).attr('data-index', index);
+                    animateCircle($(this), 1);
+                });
+                $('ul.gallery > li a').hover(function() {
+                    animateCircle($(this), 1.2);
+                }, function() {
+                    animateCircle($(this), 1);
+
+                });
+
+                // let the gallery items be draggable
+                $("ul.gallery > li a").draggable({
+                    revert: "invalid", // when not dropped, the item will revert back to its initial position
+                    containment: "document",
+                    helper: "clone",
+                    cursor: "move"
+                });
+
+                // let the trash be droppable, accepting the gallery items
+                $("#droparea").droppable({
+                    accept: "ul.gallery > li a",
+                    activeClass: "ui-state-highlight",
+                    drop: function(event, ui) {
+            //            alert('dropped');
+                        //deleteImage( ui.draggable );
+                    }
+                });
+
+
+                function animateCircle($link, expansion_scale) {
+                    index = $link.attr('data-index');
+                    radians = 2 * Math.PI * (index / total_links);
+                    x = -(Math.sin(radians) * circle_radius * expansion_scale);
+                    y = -(Math.cos(radians) * circle_radius * expansion_scale);
+                    $link.animate({
+                        top: x + 'px',
+                        left: y + 'px'
+                    }, 600);
+                }
+            });
+        </script>
+
+        <div>
+            <table align="left">
+                <tr>
+                    <td id="headtableleft" style="border: 0">
+                       <nav>
+                            <div id="droparea">
+                                <a href="index.html"><img  src="imagenes/logordf.png" width="40px" height="40px"></a>
+                            </div>
+                            <ul class="gallery">
+                                <li><a href="EXPLOTACION.html" title="ACTIVIDAD NUMERO 5">EXPLOTACION</a></li>
+                                <li><a id="actual" href="ESPECIFICACION.html" title="ACTIVIDAD NUMERO 1">ESPECIFICACION</a></li>
+                                <li><a href="MODELAMIENTO.html" title="ACTIVIDAD NUMERO 2">MODELAMIENTO</a></li>
+                                <li><a href="GENERACION.html" title="ACTIVIDAD NUMERO 3">GENERACION</a></li>
+                                <li><a href="PUBLICACION.html" title="ACTIVIDAD NUMERO 4">PUBLICACION</a></li>
+                            </ul>
+                        </nav>
+                    </td>
+                    <td id="headtableright"  style="border: 0">
+                        <a href="index.html"><img  src="imagenes/especificacionimgg.png" ></a>
+                    </td>
+                </tr></table>
+        </div>
+        <!--
+        <h1>ESPECIFICACION</h1>
+        -->
+        </br>
+        <div  id="divintro">
+            <table id="fisttable" align="left">
+                <tr>
+                    <td id="firsttable1col" style="border: 0">
+                        <!-- <img  src="imagenes/especificacionimg2.png" width="200" height="200">  -->
+                    </td>
+                    <td id="firsttable2col" style="border: 0; text-align: justify">
+                        <p><FONT FACE="arial" SIZE=2>En esta sección se describen las actividades necesarias para el cumplimiento del proceso "ESPECIFICACION" como parte de la metodología para la generación de datos
+                            enlazados geoespaciales</FONT></p>
+                        <p><FONT FACE="arial" SIZE=2>Consiste en la determinación, obtención y análisis de las fuentes
+                            de información. En esta actividad también se definen las URI's cuyo objetivo
+                            principal es identificar los recursos y cada una de sus propiedades.</FONT></p>
+                    </td>
+                    <td  style="border: 0">
+                        
+                        <img  src="imagenes/ilustracionshapeecuador.png" width="300px" height="200px"> 
+                    </td>
+
+                </tr>
+            </table>  
+        </div>
+
+        <div>
+            <h2>FUENTES DE INFORMACION</h2>
+
+            <table>
+                <tr>
+                    <td id="firsttable1col" style="border: 0">
+                        <img  src="imagenes/busqueda2.jpg" > 
+                    </td>
+                    <td id="firsttable2col" style="border: 0; text-align:  justify">
+                        <p><FONT FACE="arial" SIZE=2>Este proceso permite tener un conocimiento claro de las fuentes de información, es
+                            el punto de partida para todo el proceso de generación de Datos Enlazados Geoespaciales.
+                            Para ello se ha realizado la búsqueda manual en internet, usando buscadores
+                            Web se logro encontrar archivos de formato shapefile alojados en paginas Web de
+                            instituciones publicas e instituciones privadas que ofrecen informacion publica del Ecuador</FONT></p>
+                    </td>
+                </tr>
+            </table>
+            <p id="msg">&nbsp;</p>
+            <!-- data taken from generatedata.com -->
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="5" style="text-align: center; font-size: 20px; background-color: #0b67cd; color: #ffffff">Instituciones proveedoras de información</td>
+                    </tr>
+                    <tr>
+                        <th data-sort="string">INSTITUCION</th>
+                        <th data-sort="string">CIUDAD</th>
+                        <th data-sort="string">DIRECCION</th>
+                        <th data-sort="string">WEB</th>
+                        <th data-sort="string">DESCRIPCION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>PROMAS</td>
+                        <td>CUENCA</td>
+                        <td>Av. 12 de Abril y Agustin Cueva Ciudadela </td>
+                        <td><a href="http://promas.ucuenca.edu.ec/" id="aaa">http://promas.ucuenca.edu.ec/</a></td>
+                        <td>Programa para el Manejo de Agua y Suelos (Universidad de Cuenca )</td>
+                    </tr>
+                    <tr>
+                        <td>INEC</td>
+                        <td>QUITO</td>
+                        <td>Juan Larrea y Jose Riofrio</td>
+                        <td><a href="http://www.ecuadorencifras.gob.ec/">http://www.ecuadorencifras.gob.ec/</a></td>
+                        <td>Instituto Nacional de Estadisticas y Censos</td>
+                    </tr>
+                    <tr>
+                        <td>IGEPN</td>
+                        <td>QUITO</td>
+                        <td>Ladron de Guevara E11-253, Aptdo. 2759</td>
+                        <td><a href="http://www.igepn.edu.ec/">http://www.igepn.edu.ec/</a></td>
+                        <td>Instituto Geofisico Escuela Politecnica Nacional</td>
+                    </tr>
+                    <tr>
+                        <td>AEorg</td>
+                        <td>QUITO</td>
+                        <td>Alejandro de Valdez N24 33 y Av. La Gasca</td>
+                        <td><a href="http://www.accionecologica.org/">http://www.accionecologica.org/</a></td>
+                        <td>Accion Ecologica Ecuador</td>
+                    </tr>
+                    <tr>
+                        <td>MAE</td>
+                        <td>QUITO</td>
+                        <td>Calle Madrid 1159 y Andalucia</td>
+                        <td><a href="http://www.ambiente.gob.ec/">http://www.ambiente.gob.ec/</a></td>
+                        <td>Ministerio del Ambiente</td>
+                    </tr>
+                    <tr>
+                        <td>PROMSA</td>
+                        <td>CUENCA</td>
+                        <td>Av. 24 de Mayo 7-77 y Hernan Malo</td>
+                        <td><a href="http://www.uazuay.edu.ec/promsa/">http://www.uazuay.edu.ec/promsa/</a></td>
+                        <td>Promgrama de modernizacion de los servicios agropecuarios</td>
+                    </tr>
+                    <tr>
+                        <td>MAGAP</td>
+                        <td>QUITO</td>
+                        <td>Av. Amazonas y Av. Eloy Alfaro</td>
+                        <td><a href="http://www.agricultura.gob.ec/">http://www.agricultura.gob.ec/</a></td>
+                        <td>Ministerio de Agricultura, Ganaderia, Acuacultura y Pesca</td>
+                    </tr> 
+                </tbody>
+            </table>
+
+            </br>
+            </br>
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="5" style="text-align: center; font-size: 20px; background-color: #0b67cd; color: #ffffff">Archivos ShapeFile encontrados y utilizados en el proceso</td>
+                    </tr>
+                    <tr>
+                        <th data-sort="string">TIPO</th>
+                        <th data-sort="string">Nombre del ShapeFile</th>
+                        <th data-sort="string">Descripcion</th>
+                        <th data-sort="string">Geometria</th>
+                        <th data-sort="string">DOWNLOAD</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CATASTRO TURISTICO</td>
+                        <td>CATASTRO_TURISTICO.shp</td>
+                        <td>Contiene la ubicacion de los lugares considerados turisticos</td>
+                        <td>PUNTO</td>
+                        <td><a href="shapes/CATASTRO TURISTICO.rar">Catastro Turistico</a></td>
+                    </tr>
+                    <tr>
+                        <td>CENTRAL ELECTRICA</td>
+                        <td>CENTRAL_ELECTRICA.shp</td>
+                        <td>Contiene la ubicacion de las Centrales Electricas</td>
+                        <td>PUNTO</td>
+                        <td><a href="shapes/CENTRAL ELECTRICA.rar">Central Electrica</a></td>
+                    </tr>
+                    <tr>
+                        <td>CIUDADES PATRIMONIALES</td>
+                        <td>RED_CIUDADES_PATRIMONIALES.shp</td>
+                        <td>Contiene la ubicacion y geometria de las ciudades consideradas Patrimoniales</td>
+                        <td>POLIGONO</td>
+                        <td><a href="shapes/RED CIUDADES PATRIMONIALES.rar">Ciudades Patrimoniales</a></td>
+
+                    </tr>
+                    <tr>
+                        <td>CENTRO DE SALUD</td>
+                        <td>centrosalud.shp</td>
+                        <td>Contiene la ubicacion de los Centros de Salud</td>
+                        <td>PUNTO</td>
+                        <td><a href="shapes/CENTRO DE SALUD.rar">Centros de Salud</a></td>
+                    </tr>
+                    <tr>
+                        <td>PROYECTO GENERACION ELECTRICA</td>
+                        <td>PROYECTO GENERACION.shp</td>
+                        <td>Contiene la ubicacion de los proyectos de Generacion Electrica</td>
+                        <td>PUNTO</td>
+                        <td><a href="shapes/PROYECTO GENERACION.rar">Proyectos de Generacion</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <h2>DISEÑO DE URIS</h2>
+
+            <p><FONT FACE="arial" SIZE=2>La definición del formato de los Identificadores de las instancias (URI) es de mucha
+                importancia previo a la generación de los archivos RDF, puesto que estas permiten
+                identificar inequívocamente los elementos o recursos que han sido generados y publicados
+                en formato RDF. Para el diseño de las URIS de este proyecto se adoptan las
+                recomendaciones de [1] que serán descritas a continuación:</FONT></p>
+            <ul><FONT FACE="arial" SIZE=2>
+                <li id="uris">La raíz de las URI será: http://geo.linkeddata.ec</li>
+                <li id="uris">La URI para la identificación de los recursos modelados en la ontología será:</br>
+                    <table><tr>
+                            <td>Patrón</td>
+                            <td>http://geo.linkeddata.ec/ontology/class</td>
+                        </tr>
+                        <tr>
+                            <td>Ejemplo</td>
+                            <td>http://geo.linkeddata.ec/ontology/provincia</td>
+                        </tr>
+                    </table>
+                </li>
+                <li id="uris">URIs para identificar los recursos asociados a los Datos:</br>
+                    <table><tr>
+                            <td>Patrón</td>
+                            <td>http://geo.linkeddata.ec/resource/tipo/nombre del recurso + GeometryHash </td>
+                        </tr>
+                        <tr>
+                            <td>Ejemplo</td>
+                            <td>http://geo.linkeddata.ec/resource/provincia/Azuay4052ca02e881aef868ee56d0b3f76708ac6378fa</td>
+                        </tr>
+                    </table>
+                </li>
+                <li id="uris">URIs para representar la información geométrica conforme a GeoSPARQL implementando el formato WKT y el sistema de referencia
+                    WGS84:</br>
+                    <table><tr>
+                            <td>Patrón</td>
+                            <td>http://geo.linkeddata.ec/resource/GeometryHash </td>
+                        </tr>
+                        <tr>
+                            <td>Ejemplo</td>
+                            <td>http://geo.linkeddata.ec/resource/4052ca02e881aef868ee56d0b3f76708ac6378fa</td>
+                        </tr>
+                    </table>  
+                </li>    
+                </FONT>
+            </ul>
+
+
+
+
+            </br>
+        </div>
+        [1] Paul Davidson, CIO, y Sedgemoor District Council. Designing uri sets for the
+        uk public sector. Klin. Lab. Diagn., 1, 2009.
+    </body>
+</html>

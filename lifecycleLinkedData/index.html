@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Linked Data Life Cycle</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <style type="text/css">
+            nav {
+                position: relative;
+                top: 200px;
+                left: 400px;
+                font-family: helvetica, arial;
+            }
+            li {
+                list-style: none;
+            }
+            a {
+                position: absolute;
+                text-decoration: none;
+                width:130px;
+                height:130px;
+                border-radius:100%;
+                line-height:9.5em;
+                text-align:center;
+                text-orientation: auto;
+                font-family: helvetica, arial;
+                background-color: #f2ed7d;
+            }
+            a:link, a:visited {
+                color: black;
+                font-size: 12px;
+                font-weight: bold;
+            }
+            a:hover {
+                color: brown;
+            }
+            #droparea { width: 50px; height: 50px; padding: 2%; text-align: center; }
+        </style>         
+
+
+    </head>
+    <body>
+
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+        <script>
+            // Your code goes here.
+            $(function() {
+                circle_radius = 180;
+                $links = $('nav ul.gallery li a');
+                total_links = $links.size();
+                $links.each(function(index) {
+                    $(this).attr('data-index', index);
+                    animateCircle($(this), 1);
+                });
+                $('ul.gallery > li a').hover(function() {
+                    animateCircle($(this), 1.2);
+                }, function() {
+                    animateCircle($(this), 1);
+
+                });
+
+                // let the gallery items be draggable
+                $("ul.gallery > li a").draggable({
+                    revert: "invalid", // when not dropped, the item will revert back to its initial position
+                    containment: "document",
+                    helper: "clone",
+                    cursor: "move"
+                });
+
+                // let the trash be droppable, accepting the gallery items
+                $("#droparea").droppable({
+                    accept: "ul.gallery > li a",
+                    activeClass: "ui-state-highlight",
+                    drop: function(event, ui) {
+                        alert('dropped');
+                        //deleteImage( ui.draggable );
+                    }
+                });
+
+
+                function animateCircle($link, expansion_scale) {
+                    index = $link.attr('data-index');
+                    radians = 2 * Math.PI * (index / total_links);
+                    x = -(Math.sin(radians) * circle_radius * expansion_scale);
+                    y = -(Math.cos(radians) * circle_radius * expansion_scale);
+                    $link.animate({
+                        top: x + 'px',
+                        left: y + 'px'
+                    }, 600);
+                }
+            });
+
+
+
+        </script>
+
+
+
+        <div>
+            
+        </div>
+         <div id="intro" style="text-align: justify">
+            </br>
+            </br>
+            </br>
+            <center> 
+            <h2>Ecuadorian Geospatial Linked Data</h2>
+            <h3>Linked Data de Informacion Geoespacial del Ecuador</h3>
+            </center>
+            <div style="float: left">
+                <img  src="imagenes/nubelinkeddata.png" width="350" height="300" title="Nube Linkeddata 2009 - Fuente:http://euclid-project.eu/"> 
+                </br>
+                <center><FONT FACE="arial" SIZE=1>Nube LinkedData 2014 - Fuente:http://lod-cloud.net/</FONT></center>
+            </div>
+            <div style="padding-left: 30%">
+                <center><h3>INTRODUCCION</h3></center>
+            <p> <FONT FACE="arial" SIZE=2>
+                Ultimamente los trabajos relacionados con datos se han enfocado en gran parte hacia los datos geoespaciales y su
+                combinacion con Linked Data. En este espacio presentamos las actividades, tareas y procesos realizados 
+                para la creación del Repositorio Ecuatoriano de Datos Enlazados Geoespaciales, revisando ciertas 
+                propuestas existentes y tambien ofreciendo soluciones para lograr facilidad de  publicación y explotación de los
+                Datos Enlazados Geoespaciales
+                </FONT></p>
+          
+            
+     
+
+     
+            <p> <FONT FACE="arial" SIZE=2>
+                La publicación de datos gubernamentales sobre la Web (Linked Open Data) es una importante iniciativa de gobiernos de todo el mundo. 
+                Estas iniciativas se pueden agrupar en dos categorías: 
+                </FONT>
+            </p>
+                <ul type = disk>
+                    <li>° Creación de repositorios de datos públicos</li>
+                    <li>° Aplicaciones que publiquen datos del gobierno como Datos Enlazados proporcionando servicios como Sparql EndPoint.</li>
+                </ul>
+            <p>
+            <FONT FACE="arial" SIZE=2>En el contexto del dominio geoespacial existe diversos tipos de fuentes de datos como:</p>
+            <ul>
+                <li>° ShapeFiles</li>
+                <li>° Geo-databases</li>
+                <li>° CSVs</li>
+                <li>° Hojas de cálculo Excel</li>
+                <li>° GML, XML, KML, etc.</li>
+            </ul>
+         </div>
+            <div>
+                Estos formatos represetan informacion de una manera estructurada. Los datos geoespaciales describen geometrías como : puntos, líneas, polígonos y multipolígonos. Varios estudios
+                han abordado de manera positiva el problema de la generación de RDF a partir de información geoespacial. Una vez que esta información está disponible en formatos 
+                de la Web Semántica, puede ser fácilmente compartida e intercambiada.
+                </br>
+                Con respecto a las iniciativas geoespaciales de datos enlazados, varios estudios han llevado de manera positiva el problema de la generación de RDF.
+                </br>
+                <b>GeoLinkedData</b> es una iniciativa para agregar una dimensión espacial a la Web de
+                Datos. <b>LinkedGeoData</b> utiliza la información recopilada por el OpenStreetMap para hacerla disponible como RDF. <b>Ordnance Survey Linked Data</b> es La agencia nacional de cartografía 
+                de Gran Bretaña. Ordnance Survey publica diferentes tipos de información de sus productos, que pueden ser accesibles a través de un servicio de SPARQL. 
+                El <b>Instituto Nacional de Información de Francia</b> esta
+                trabajando en la publicación de datos geoespaciales en formato Linked Data . <b>Trentino
+                    Government Linked Open GeoData</b> ha publicado sus datos siguiendo los principios de Linked Data.
+                </br>
+                Teniendo esto en mente, nuestro objetivo es crear el <b>Repositorio Ecuatoriano de Datos Enlazados Geoespaciales</b>, y representar
+                las fuentes de datos geoespaciales en RDF. Combinamos las ideas de varias iniciativas, y proponemos un nuevo
+                entorno de trabajo para hacer frente a la generación e integración de datos geoespaciales. Ademas,
+                tenemos la intención de utilizar, reutilizar y ampliar las capacidades de las herramientas ETL para la generación de
+                Linked Data basado en las librerias de generacion de RDF disponibles, pero adaptado al 
+                dominio geoespacial.</br>
+                Fuente: http://www.w3.org/2014/03/lgd/GeoLinkedDataEC-v3-boris
+                
+                </FONT></p>
+        </div>
+    <center>
+        <h3>Arquitectura del Proyecto "Ecuadorian Geospatial Linked Data"</h3>
+        <img  src="imagenes/EcuadorianGeospatialLinkedDataArchitecture2.png" style="max-width: 100%" height="400">
+    </center>
+            <center><h3>LINKED DATA LIFE CYCLE</h3></center>
+            <p style="text-align: justify">Para cumplir con los objetivos mencionados, es importante seguir una metodologia adecuada. Analizando cada uno de los 5 procesos del Ciclo
+        de Vida de Linked Data y cumpliendo los principio de Linked Data a continuacion se muestra a detalle el desarrollo de
+        cada uno de los procesos con sus respectivos ejemplos y resultados en videos y tablas que permitan la facil comprension y aplicacion de 
+        la misma para futuros trabajos</p>
+        <nav>
+            <div id="droparea">
+                <h4>Geo Linked Data</h4>
+            </div>
+            <ul class="gallery">
+                <li><a href="EXPLOTACION.html" title="Esta seccion trata sobre el consumo de la informacion que se ha generado en formato RDF ">5. EXPLOTACION</a></li>
+                <li><a href="ESPECIFICACION.html">1. ESPECIFICACION</a></li>
+                <li><a href="MODELAMIENTO.html">2. MODELAMIENTO</a></li>
+                <li><a href="GENERACION.html">3. GENERACION</a></li>
+                <li><a href="PUBLICACION.html">4. PUBLICACION</a></li>
+            </ul>
+        </nav>
+
+    </body>
+</html>

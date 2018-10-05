@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Linked Data Life Cycle - Publicacion</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <!--pARA CONTROLAR CIRCULO DE ACTIVIDADES-->
+        <style type="text/css">
+            table {
+                border-collapse: collapse;
+                margin: 1em auto;
+            }
+
+
+
+            nav {
+                position: relative;
+                top: 10px;
+                left: 140px;
+                font-family: helvetica, arial;
+            }
+            li {
+                list-style: none;
+            }
+            li > a[id|="ciclo"] {
+                position: absolute;
+                text-decoration: none;
+                width:95px;
+                height:80px;
+                border-radius:60%;
+                line-height:9.5em;
+                text-align:center;
+                text-orientation: auto;
+                font-family: helvetica, arial;
+                background-color: #2D6F81;
+            }
+            a.actual
+            {
+                font-family: helvetica, arial;
+                background-color: #792F2E !important;
+
+            }
+            li > a[id|="ciclo"]:link, li > a[id|="ciclo"]:visited {
+                color: #eee;
+                font-size: 9px;
+
+            }
+            a[id|="ciclo"]:hover {
+                font-size: 11px;
+                font-weight: bold;
+            }
+            #headtableleft
+            {
+                width: 40%;
+            }
+            #headtableright
+            {
+                width: 200px;
+            }
+            #firsttable2col {
+                font-size: medium;
+                width: 45%;
+            }
+            #firsttable1col {
+                font-size: medium;
+                width: 5%;
+
+            }
+            #droparea { width: 20px; height: 50px; padding: 6%; text-align: center; }
+        </style> 
+    </head>
+    <body>
+        <script>
+            // Your code goes here.
+            $(function() {
+                circle_radius = 80;
+                $links = $('nav ul.gallery li a');
+                total_links = $links.size();
+                $links.each(function(index) {
+                    $(this).attr('data-index', index);
+                    animateCircle($(this), 1);
+                });
+                $('ul.gallery > li a').hover(function() {
+                    animateCircle($(this), 1.2);
+                }, function() {
+                    animateCircle($(this), 1);
+
+                });
+
+                // let the gallery items be draggable
+                $("ul.gallery > li a").draggable({
+                    revert: "invalid", // when not dropped, the item will revert back to its initial position
+                    containment: "document",
+                    helper: "clone",
+                    cursor: "move"
+                });
+
+                // let the trash be droppable, accepting the gallery items
+                $("#droparea").droppable({
+                    accept: "ul.gallery > li a",
+                    activeClass: "ui-state-highlight",
+                    drop: function(event, ui) {
+                  //      alert('dropped');
+                        //deleteImage( ui.draggable );
+                    }
+                });
+
+
+                function animateCircle($link, expansion_scale) {
+                    index = $link.attr('data-index');
+                    radians = 2 * Math.PI * (index / total_links);
+                    x = -(Math.sin(radians) * circle_radius * expansion_scale);
+                    y = -(Math.cos(radians) * circle_radius * expansion_scale);
+                    $link.animate({
+                        top: x + 'px',
+                        left: y + 'px'
+                    }, 600);
+                }
+            });
+        </script>
+        <div>
+            <table align="left" id="tablehead">
+                <tr>
+                    <td id="headtableleft" style="border: 0">
+                        <nav>
+                            <div id="droparea">
+                                <a href="index.html"><img  src="imagenes/logordf.png" width="40px" height="40px"></a>
+                            </div>
+                            <ul class="gallery">
+                                <li><a id="ciclo" href="EXPLOTACION.html" title="ACTIVIDAD NUMERO 5">EXPLOTACION</a></li>
+                                <li><a id="ciclo" href="ESPECIFICACION.html" title="ACTIVIDAD NUMERO 1">ESPECIFICACION</a></li>
+                                <li><a id="ciclo" href="MODELAMIENTO.html" title="ACTIVIDAD NUMERO 2">MODELAMIENTO</a></li>
+                                <li><a id="ciclo" href="GENERACION.html" title="ACTIVIDAD NUMERO 3">GENERACION</a></li>
+                                <li><a id="ciclo" class="actual" href="PUBLICACION.html" title="ACTIVIDAD NUMERO 4">PUBLICACION</a></li>
+                            </ul>
+                        </nav>
+                    </td>
+                    <td id="headtableright"  style="border: 0">
+                        <a href="index.html"><img  src="imagenes/publicacionimgg.png" ></a>
+                    </td>
+                </tr></table>
+        </div>
+
+
+        <div align="left">
+            <table id="fisttable" align="left">
+                <tr>
+                    <td id="firsttable1col" style="border: 0">
+
+                        <img  src="imagenes/parliamentgif.gif" width="200" height="200">
+                    </td>
+                    <td id="firsttable2col" style="border: 0; text-align: justify">
+                        Una vez generado los RDF se procede a cargar estos archivos a un Triple Store, 
+                        el mismo que debe cumplir la condición de soporte del
+                        estándar GEOSPARQL y también debe ofrecer el servicio SPARQL Endpoint para
+                        que el usuario pueda realizar las respectivas consultas.
+                    </td>
+                </tr>
+            </table>  
+        </div>
+        <h3>Seleccionando el TripleStore</h3>
+        <p style="text-align: justify">
+            Existen TripleStore que actualmente se utilizan para la publicacion de los archivos RDF, entre ellos: Virtuoso, Fuseki, UseekM, etc.,
+            pero no todos los servidores presentan similares caracteristcias.Al trabajar con el modelo estandar GeoSPARQL
+            se necesita de un TripleStore que soporte este estandar. Luego de
+            un análisis de cada uno de los servidores posibles a utilizar se determino que Parliament es el unico servidor
+            que actualmente soporta el mencionado estándar para la publicación y aplicación de
+            funciones GEOSPARQL para la consulta de información.
+        </p>
+
+        <p>En el siguiente video se muestra la configuración y carga de archivos RDF al servidor PARLIAMENT</p>
+            
+    <center>
+        <iframe width="570" height="445"  
+                src="https://www.youtube.com/embed/ntRMXxkChLg?rel=0" allowfullscreen>
+        </iframe>     
+    </center>
+    <p style="text-align: justify">
+    Ecuador ha publicado sus datos en formato RDF, ofrecemos al publico el repositorio para que puedan consultar la informacion disponible,
+    así tambien se han generado enlaces hacia la DBPedia, pero el objetivo es seguir generando mas enlaces posibles.
+    </p>
+    </br>
+    </br>
+    Para consultas directas desde el Repositirio:</br>
+    SPARQL Endpoint: <a href="http://200.0.31.28:8080/parliament/query.jsp">http://200.0.31.28:8080/parliament/query.jsp</a>
+    </br>
+    </br>
+    </br>
+    
+    Para consultas desde aplicaciones externas:</br>
+    SPARQL Endpoint: <a href="http://200.0.31.28:8080/parliament/sparql">http://200.0.31.28:8080/parliament/sparql</a>
+    </br>
+    </br>
+    </br>
+    
+    El proyecto "Geo Linked Data" ahora es visible en la gran nube de Linked Data.</br>
+    <center>
+    <img  src="imagenes/geoEcuador.png" width="600" height="500">
+    </br>
+    Fragmento de la Nube Linked Data - 2014 - Fuente:http://lod-cloud.net/
+    </center>
+    
+    
+</body>
+</html>

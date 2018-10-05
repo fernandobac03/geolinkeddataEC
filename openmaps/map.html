@@ -1,222 +1,278 @@
 <!DOCTYPE html>
 <html ng-app="openMapJs">
-<head>
-<title>WKT Sparql</title>
+    <head>
+        <title>WKT Sparql</title>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
-<script src="http://openlayers.org/en/v3.13.1/build/ol.js"></script> 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.13.1/ol.css" type="text/css">
+        <script src="http://openlayers.org/en/v3.13.1/build/ol.js"></script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.13.1/ol.css" type="text/css">
 
-<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-<script	src="https://code.angularjs.org/1.5.0/angular-resource.min.js"></script>
+        <script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+        <script	src="https://code.angularjs.org/1.5.0/angular-resource.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="http://layout.jquery-dev.com/lib/css/layout-default-latest.CSS" />
+        <link rel="stylesheet" type="text/css" href="http://layout.jquery-dev.com/lib/css/layout-default-latest.CSS" />
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="bootstrap.min.css">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="bootstrap.min.css">
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="bootstrap.min.js"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="bootstrap.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="jquery-ui.min.css" />
-<link rel="stylesheet" type="text/css" href="jquery-ui.theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="jquery-ui.min.css" />
+        <link rel="stylesheet" type="text/css" href="jquery-ui.theme.min.css" />
 
-<script src="app.min.js"></script>
+        <script src="app.min.js"></script>
 
-<script type="text/javascript" src="http://layout.jquery-dev.com/lib/js/jquery-ui-latest.min.js"></script>
-<script type="text/javascript" src="http://layout.jquery-dev.com/lib/js/jquery.layout-latest.min.js"></script>
-<script type="text/javascript" src="http://layout.jquery-dev.com/lib/js/jquery.layout.resizePaneAccordions-latest.min.js"></script>
+        <script type="text/javascript" src="http://layout.jquery-dev.com/lib/js/jquery-ui-latest.min.js"></script>
+        <script type="text/javascript" src="http://layout.jquery-dev.com/lib/js/jquery.layout-latest.min.js"></script>
+        <script type="text/javascript" src="http://layout.jquery-dev.com/lib/js/jquery.layout.resizePaneAccordions-latest.min.js"></script>
 
-<script type="text/javascript">
-	var myLayout;
-	$(document).ready( function() {
+        <script type="text/javascript">
+            var myLayout;
+            $(document).ready(function () {
 
-        var updateMapSize = function() {
-            var elem = angular.element("#map");
-            if (elem != null) {
-                angular.element("#map").scope().updateMapSize();
+                var updateMapSize = function () {
+                    var elem = angular.element("#map");
+                    if (elem != null) {
+                        angular.element("#map").scope().updateMapSize();
+                    }
+                }
+
+                myLayout = $('body').layout({
+                    west__size: 300
+                    , north__size: 45
+                    , north__spacing_open: 0
+                    , east__size: 300
+                    , center__onresize: updateMapSize
+                            // RESIZE Accordion widget when panes resize
+                    , west__onresize: function (x, ui) {
+                        $.layout.callbacks.resizePaneAccordions(x, ui);
+                        updateMapSize();
+                    }
+                });
+
+                // ACCORDION - in the West pane
+                $("#accordion").accordion({
+                    heightStyle: "fill"
+                });
+                updateMapSize();
+
+
+            });
+
+        </script>
+        <style type="text/css">
+            #accordion {
+                margin-top:0px;
             }
-        }
-        
-		myLayout = $('body').layout({
-			west__size:			300
-			,   north__size:    45
-			,	north__spacing_open:	0
-		,	east__size:			300
-		,	center__onresize:	updateMapSize
-			// RESIZE Accordion widget when panes resize
-		,	west__onresize:	function(x,ui){$.layout.callbacks.resizePaneAccordions(x,ui);updateMapSize();}
-		});
+            #map {
+                width: 100%; 
+                height: 100%;
+                border: 1px solid gray;
+            }
+            .popover{
+                max-width: 90%;
+            }
 
-		// ACCORDION - in the West pane
-		$("#accordion").accordion({
-			heightStyle:	"fill"
-		});
-		updateMapSize();
+            .container { 
+                width:100%; 
+                border:1px solid;
+                border-color: lightgray; 
+                height: 100%;
+                /*overflow-y: scroll; */
+                overflow-x: hidden;
+                padding: 4px;
+            }
+            .border { border-radius: 10px; padding: 10px; }
+            }
+            .checklabel { font-weight: normal !important; padding-bottom: 5px; }
+            .title { text-align: left; }
+            .panel-body .nopadding { padding: 0px; }
+            .overlay {
+                background: #e9e9e9;
+                display: none;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                opacity: 0.5;
+            }
+            #loading-img {
+                background: url(http://www.mytreedb.com/uploads/mytreedb/loader/ajax_loader_gray_350.gif) center center no-repeat;
+                height: 100%;
+                z-index: 20;
+            }
+            .ol-attribution ul {
+                font-size: 0.9rem;
+            }
+            body { 
+                font-size: normal;
+            }
 
+            /*
+             *	Cosmetic Styles
+             */
+            button {
+                line-height:	normal;
+            }
 
-	});
+            /*
+             *	CUSTOMIZE LAYOUT SETTINGS
+             */
+            .ui-layout-north, .ui-layout-west {
+                background:		#EEE;
+                border-bottom:	0;
+                padding:		10px 20px;
+            }
+            .ui-layout-center {
+                background:		#EEE;
+                border-top:		0;
+                padding:		0 20px 20px;
+                overflow-x:		hidden;
+            }
 
-	</script>
-	<style type="text/css">
-	#accordion {
-        margin-top:0px;
-	}
-#map {
-    width: 100%; 
-    height: 100%;
-    border: 1px solid gray;
-}
-.popover{
-    max-width: 90%;
-}
+            .ui-layout-center ,	/* has content-div */
+            .ui-layout-west ,	/* has Accordion */
+            .ui-layout-east ,	/* has content-div ... */
+            .ui-layout-east .ui-layout-content { /* content-div has Accordion */
+                padding: 0;
+                overflow: hidden;
+            }
+            .ui-layout-center P.ui-layout-content {
+                line-height:	1.4em;
+                margin:			0; /* remove top/bottom margins from <P> used as content-div */
+            }
 
-.container { 
-    width:100%; 
-    border:1px solid;
-    border-color: lightgray; 
-    height: 100%;
-    /*overflow-y: scroll; */
-    overflow-x: hidden;
-    padding: 4px;
-}
-.border { border-radius: 10px; padding: 10px; }
-}
-.checklabel { font-weight: normal !important; padding-bottom: 5px; }
-.title { text-align: center; }
-.panel-body .nopadding { padding: 0px; }
-.overlay {
-    background: #e9e9e9;
-    display: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    opacity: 0.5;
-}
-#loading-img {
-    background: url(http://www.mytreedb.com/uploads/mytreedb/loader/ajax_loader_gray_350.gif) center center no-repeat;
-    height: 100%;
-    z-index: 20;
-}
-.ol-attribution ul {
-    font-size: 0.9rem;
-}
-	body { 
-        font-size: normal;
-	}
-	
-	/*
-	 *	Cosmetic Styles
-	 */
-	button {
-		line-height:	normal;
-	}
+            .ui-layout-west h4 { /* Footer in East-pane */
+                font-size:		0.9em;
+                font-weight:	normal;
+                border-width:	1px 0 0;
 
-	/*
-	 *	CUSTOMIZE LAYOUT SETTINGS
-	 */
-	.ui-layout-north, .ui-layout-west {
-		background:		#EEE;
-		border-bottom:	0;
-		padding:		10px 20px;
-	}
-	.ui-layout-center {
-		background:		#EEE;
-		border-top:		0;
-		padding:		0 20px 20px;
-		overflow-x:		hidden;
-	}
+                font-size:		1.1em;
+                background:		#EEF;
+                border:			1px solid #BBB;
+                border-width:	0 0 1px;
+                padding:		7px 10px;
+                margin:			0;		
+            }	
 
-.ui-layout-center ,	/* has content-div */
-	.ui-layout-west ,	/* has Accordion */
-	.ui-layout-east ,	/* has content-div ... */
-	.ui-layout-east .ui-layout-content { /* content-div has Accordion */
-		padding: 0;
-		overflow: hidden;
-	}
-.ui-layout-center P.ui-layout-content {
-		line-height:	1.4em;
-		margin:			0; /* remove top/bottom margins from <P> used as content-div */
-	}
+        </style>
+    </head>
+    <body ng-controller="OpenMapJsController">
 
-	.ui-layout-west h4 { /* Footer in East-pane */
-		font-size:		0.9em;
-		font-weight:	normal;
-		border-width:	1px 0 0;
-		
-		font-size:		1.1em;
-		background:		#EEF;
-		border:			1px solid #BBB;
-		border-width:	0 0 1px;
-		padding:		7px 10px;
-		margin:			0;		
-	}	
-	</style>
-</head>
-<body ng-controller="OpenMapJsController">
-
-<div class="ui-layout-north ui-widget-content">
-    <div class="title">
-        <h3 style="margin-top:0px;;margin-bottom: 0px;">OpenMapJS {{Version}} <small>RDF4GeoKettle Project</small></h3>
-    </div>
-
-</div>
+       <div  class="ui-layout-north ui-widget-content">
+            <div class="title">
+                <h3 style="margin-top:0px;;margin-bottom: 0px;">OpenMapJS {{Version}} <small>GeoLinkedData Ecuador Project - <a target="black" href="http://linkeddata.ec">http://linkeddata.ec</a></small></h3>
+          
+            </div>
+            
+       </div>
 
 
 
 
-<div class="ui-layout-west">
-<div id="warning-alert" class="alert alert-warning alert-dismissible" style="display:none;" role="alert">
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  <div class="alert-text"> </div>
-</div>
-<div id="accordion">
-  <h3>Geometries</h3>
-  <div style="padding-left:10px;padding-right:10px;">
-    
+        <div class="ui-layout-west">
+            <div id="warning-alert" class="alert alert-warning alert-dismissible" style="display:none;" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="alert-text"> </div>
+            </div>
+            <center>
+                <div class="imgcenter" >
+                    <a target="black"href="http://ucuenca.edu.ec"><img src="images/logo_UC.png" /></a>
+                </div>
+            </center>
 
-            <div class="container">
-                <span ng-repeat-start="e in entities | orderBy:'uriClass'" class="checklabel" style="display:block; padding-bottom:5px;">
-                <label class="checklabel" style="font-size: 0.9em; padding-bottom: 5px; ">
-                  <input
-                    type="checkbox"
-                    name="urisSel"
-                    ng-checked="isSelected(e.id)"
-                    ng-click="updateSelection($event, e.id, e.uriClass)"
-                  > {{e.uriClass}}
-                </label>
-                </span><span ng-repeat-end />
-            </div
-    
-    <p></p>
-    
-  </div>
+            <div id="accordion">
+                <h3>Geometries</h3>
+                <div style="padding-left:10px;padding-right:10px;">
 
-  <h3>About</h3>
-  <div>
-            <p>OpenMapJS {{Version}} 2018</p>
-	    <p>OpenMapJS is a program which plots RDF (GeoSPARQL compatible) using an OpenLayer-3 map.            </p>
-	    <!--<p>Contacto: <a href="mailto:fernando.bac03@gmail.com">Fernando Baculima</a></p>
-            <p>Contacto: <a href="mailto:marcelocaj@gmail.com">Marcelo Cajamarca</a></p>-->
-            <p>Url: <a href="https://github.com/marcelocaj/openmapjs">https://github.com/marcelocaj/openmapjs</a></p>
 
-  </div>
-</div>
-<h4 class="ui-widget-content ui-state-hover">
-<button type="button" ng-click="clearMap()" style="background-color: white;padding-top:2px;padding-bottom:2px;" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Clear Map</button>
-</h4>
-</div>
+                    <div class="container">
+                        <span ng-repeat-start="e in entities | orderBy:'uriClass'" class="checklabel" style="display:block; padding-bottom:5px;">
+                            <label class="checklabel" style="font-size: 0.9em; padding-bottom: 5px; ">
+                                <input
+                                    type="checkbox"
+                                    name="urisSel"
+                                    ng-checked="isSelected(e.id)"
+                                    ng-click="updateSelection($event, e.id, e.uriClass)"
+                                    > {{e.labelClass}}
+                            </label>
+                        </span><span ng-repeat-end />
+                    </div
 
-<div class="ui-layout-center" style="padding: 0px;">
-	<div id="map"></div>
-</div>
-<div class="overlay">
-    <div id="loading-img"></div>
-</div>
+                    <p></p>
 
-<div id="popup"></div>
-</body>
+                </div>
+                <h3>Data Information</h3>
+                <div>
+                    <h3>Data Sources</h3>
+                    </br>
+                    <h3>PROMAS:</h3>
+                    <small>
+                        <a target="black" href="http://promas.ucuenca.edu.ec/Promas/index.php">Programa para el Manejo del Agua y del Suelo</a>
+                    </small>
+                    </br>
+                    <h3>IGM:</h3>
+                    <small>
+                        <a target="black" href="http://www.geoportaligm.gob.ec/">Instituto Geografico Militar</a>
+                    </small>
+                    </br>
+                    <h3>SENAGUA:</h3>
+                    <small>
+                        <a target="black" href="http://www.agua.gob.ec/">Secretaria Nacional del Agua</a>
+                    </small>
+                    </br>
+
+                    <h3>Sparql Endpoint</h3>   
+                    <small>
+                        <a target="black" href="http://linkeddata.ec/marmotta/sparql/select">Enlace</a>
+                    </small>
+
+                </div>
+                <h3>About</h3>
+                <div>
+                    <p>OpenMapJS {{Version}} 2018</p>
+                    <p>OpenMapJS is a program which plots RDF (GeoSPARQL compatible) using an OpenLayer-3 map.</p>
+                    <!--<p><small>Author:</small> <a href="mailto:marcelocaj@gmail.com">Marcelo Cajamarca</a></p>
+                    <p><small>Url: <a href="https://github.com/marcelocaj/openmapjs">https://github.com/marcelocaj/openmapjs</a></small></p>-->
+                    <hr>
+                    <center>
+                        <img width="50%"  src="images/logo_DCC.png" />
+
+                        <br>
+                        <a target="black"  href="http://www.ucuenca.edu.ec/la-oferta-academica/oferta-de-grado/facultad-de-ingenieria/dptos/dcc"><small>Departamento de Ciencias de la Computacion</small></a>
+                        <br>
+                        <small>Campus Central, Edificio PROMAS.</small>
+                        <br>
+                        <small>Universidad de Cuenca.</small>
+                        <br>
+                        <small>Av. 12 de Abril y Agustín Cueva (ciudadela universitaria).</small>
+                        <br>
+                        <small>Cuenca - Ecuador</small>
+                        <br>
+                        <br>
+                        <div>This project is part of:
+                            <a target="black"  href="http://linkeddata.ec"><h3>geo.linkeddata.ec</h3></a>
+                        </div>
+                        </br>
+                    </center>
+                    <p>This application is distributed under GNU/LGPL License v3. - 2018</p>
+               </div>
+            </div>
+            <h4 class="ui-widget-content ui-state-hover">
+                <button type="button" ng-click="clearMap()" style="background-color: white;padding-top:2px;padding-bottom:2px;" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">Clear Map</button>
+            </h4>
+        </div>
+
+        <div class="ui-layout-center" style="padding: 0px;">
+            <div id="map"></div>
+        </div>
+        <div class="overlay">
+            <div id="loading-img"></div>
+        </div>
+
+        <div id="popup"></div>
+    </body>
 </html>

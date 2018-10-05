@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Linked Data Life Cycle - Generacion</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="jquery/jquery-ui.css">
+        <script src="external/jquery/jquery-1.10.2.js"></script>
+        <script src="jquery/jquery-ui.js"></script>
+        <style>
+            #tabs{
+                max-width: 100%;
+            }
+            #pestanias{
+
+                position: absolute;
+                left: 2%;
+                top: 20%;
+            }
+        </style>
+
+        <style type="text/css">
+            table {
+                border-collapse: collapse;
+                margin: 1em auto;
+            }
+
+            th, td {
+                padding: 5px 10px;
+                border: 1px solid #999;
+                font-size: 12px;
+            }
+            th {
+                background-color: #eee;
+            }
+            th[data-sort]{
+                cursor:pointer;
+            }
+            /* zebra-striping seems to really slow down Opera sometimes */
+            tr[id|="alternate"]:nth-child(even) > td {
+                background-color: #FFFFFF;
+            }
+            tr[id|="alternate"]:nth-child(odd) > td {
+                background-color: #E6E6E6;
+            }
+            .disabled {
+                opacity: 0.5;
+            }
+              #headtableleft
+            {
+                width: 40%;
+            }
+            #headtableright
+            {
+                width: 200px;
+            }
+        </style>
+ <!--pARA CONTROLAR CIRCULO DE ACTIVIDADES-->
+        <style type="text/css">
+            nav {
+                position: relative;
+                top: 10px;
+                left: 140px;
+                font-family: helvetica, arial;
+            }
+            li {
+                list-style: none;
+            }
+            li > a[id|="ciclo"] {
+                position: absolute;
+                text-decoration: none;
+                width:95px;
+                height:80px;
+                border-radius:60%;
+                line-height:9.5em;
+                text-align:center;
+                text-orientation: auto;
+                font-family: helvetica, arial;
+                background-color: #2D6F81;
+            }
+            a.actual
+            {
+                font-family: helvetica, arial;
+                background-color: #792F2E !important;
+
+            }
+            li > a[id|="ciclo"]:link, li > a[id|="ciclo"]:visited {
+                color: #eee;
+                font-size: 9px;
+
+            }
+            a[id|="ciclo"]:hover {
+                font-size: 11px;
+                font-weight: bold;
+            }
+
+            #droparea { width: 20px; height: 50px; padding: 6%; text-align: center; }
+        </style>    
+    </head>
+    <body>
+           <script>
+            // Your code goes here.
+            $(function() {
+                circle_radius = 80;
+                $links = $('nav ul.gallery li a');
+                total_links = $links.size();
+                $links.each(function(index) {
+                    $(this).attr('data-index', index);
+                    animateCircle($(this), 1);
+                });
+                $('ul.gallery > li a').hover(function() {
+                    animateCircle($(this), 1.2);
+                }, function() {
+                    animateCircle($(this), 1);
+
+                });
+
+                // let the gallery items be draggable
+                $("ul.gallery > li a").draggable({
+                    revert: "invalid", // when not dropped, the item will revert back to its initial position
+                    containment: "document",
+                    helper: "clone",
+                    cursor: "move"
+                });
+
+                // let the trash be droppable, accepting the gallery items
+                $("#droparea").droppable({
+                    accept: "ul.gallery > li a",
+                    activeClass: "ui-state-highlight",
+                    drop: function(event, ui) {
+                        //deleteImage( ui.draggable );
+                    }
+                });
+
+
+                function animateCircle($link, expansion_scale) {
+                    index = $link.attr('data-index');
+                    radians = 2 * Math.PI * (index / total_links);
+                    x = -(Math.sin(radians) * circle_radius * expansion_scale);
+                    y = -(Math.cos(radians) * circle_radius * expansion_scale);
+                    $link.animate({
+                        top: x + 'px',
+                        left: y + 'px'
+                    }, 600);
+                }
+            });
+        </script>
+         <div>
+             <table align="left" id="tablehead">
+            <tr>
+                <td id="headtableleft" style="border: 0">
+                  
+                    <nav>
+                        <div id="droparea">
+                                <a href="index.html"><img  src="imagenes/logordf.png" width="40px" height="40px"></a>
+                        </div>
+                        <ul class="gallery">
+                            <li><a id="ciclo" href="EXPLOTACION.html" title="ACTIVIDAD NUMERO 5">EXPLOTACION</a></li>
+                            <li><a id="ciclo" href="ESPECIFICACION.html" title="ACTIVIDAD NUMERO 1">ESPECIFICACION</a></li>
+                            <li><a id="ciclo" href="MODELAMIENTO.html" title="ACTIVIDAD NUMERO 2">MODELAMIENTO</a></li>
+                            <li><a id="ciclo" class="actual" href="GENERACION.html" title="ACTIVIDAD NUMERO 3">GENERACION</a></li>
+                            <li><a id="ciclo" href="PUBLICACION.html" title="ACTIVIDAD NUMERO 4">PUBLICACION</a></li>
+                        </ul>
+                    </nav>
+                </td>
+                <td id="headtableright"  style="border: 0">
+                    <a href="index.html"><img  src="imagenes/generacionimgg.png" ></a>
+                </td>
+            </tr></table>
+        </div>
+        
+        
+        
+      
+        <div align="left">
+            <table id="fisttable" align="left">
+                <tr>
+                    <td id="firsttable1col" style="border: 0">
+                        <!-- <img  src="imagenes/especificacionimg2.png" width="200" height="200">  -->
+                    </td>
+                    <td id="firsttable2col" style="border: 0; text-align: justify">
+                        <p><FONT FACE="arial" SIZE=2>Esta sección se describe el proceso realizado para lograr la generación de los archivos RDF a través de un proceso
+ETL  utilizando la herramienta GeoKettle. Para ello, se configura una transformación para que la generación de los
+archivos rdf se realice de una manera simple utilizando algunos plugins existentes en la herramientas y también el plugin Geometry2RDF.</FONT></p>
+                        <p><FONT FACE="arial" SIZE=2>Para la generacion de los links SameAs se utiliza la herramienta Silk Workbench. Además, hemos desarrollado plugins 
+                            que permiten descubrir links entre diferentes recursos aplicando una serie de HEURISTICAS que se describen en la seccion "Generacion de Links SameAS"</FONT></p>
+                    </td>
+                    <td  style="border: 0">
+
+
+                    </td>
+
+                </tr>
+            </table>  
+        </div>
+        <div id="pestanias">
+            <div id="tabs">
+                <ul>
+                   
+                    <li><a href="#fragment-1"><span><FONT FACE="arial" SIZE=3>Generacion de RDF</FONT></span></a></li>
+                    <li><a href="#fragment-2"><span><FONT FACE="arial" SIZE=3>Resultados de RDF</FONT></span></a></li>
+                    <li><a href="#fragment-3"><span><FONT FACE="arial" SIZE=3>Generaciones de LINKS SameAS</FONT></span></a></li>
+                    <li><a href="#fragment-4"><span><FONT FACE="arial" SIZE=3>Resultado de LINKS</FONT></span></a></li>
+                  
+                </ul>
+                <div id="fragment-1">
+                    
+                    <p ><FONT FACE="arial" SIZE=2>La generacion de los archivos RDF la realizamos a traves de un proceso
+                        ETL. Para ello hemos desarrollado un plugin basado en la libreria Geometry2RDF para la herramienta Geokettle que permite manipular información en el entorno ETL.
+                        Se configura una transformación para que la generación de los archivos rdf se realice de forma simple utilizando
+                        Geometry2RDF y otros plugins existentes en GeoKettle </FONT></p>
+                    <h3>Descripcion de cada unos de los plugins utilizados</h3>
+                     <table><FONT FACE="arial" SIZE=2>
+                         <tr id="alternate">
+                            <td style="text-align: center"><img  src="imagenes/pluginShapefileInput.png" ></td>
+                            <td style="text-align: justify"> Este plugin permite seleccionar el archivo ShapeFile (*.shp) para leer la informacion que contiene el mencionado archivo *.shp. </td>
+                        </tr>
+                       <tr id="alternate">
+                            <td style="text-align: center"><img  src="imagenes/pluginSRSTransformation.png" ></td>
+                            <td style="text-align: justify">Este plugin permite transformar el sistema de coordenadas, para ello el usuario indica el sistema de coordenadas de la fuente (En este caso de la geometria del archivo *.shp) o el plugin puede detectar en forma Automatica. Posteriormente el usuario selecciona el sistema de coordenadas al que desea transformar la geometria</td>
+                        </tr>
+                        <tr id="alternate">
+                            <td style="text-align: center"><img  src="imagenes/pluginGeometry2RDF.png" ></td>
+                            <td style="text-align: justify"><p>Geometry2RDF es un plugin que ha sido desarrollado basado en Geometry2RDF library [Fuente], este plugin permite generar RDF desde una entrada con informacion Geometrica, por ejemplo: ShapeFile, PostGis, GDB, MySql Spatial, Oracle Spatial y cualquier fuente de informacion que pueda ser soportada por GeoKettle.</p>
+                                <p>Para configurar el plugin el usuario debe indicar el nombre de la columna o propiedad que servira para identificar a cada uno de los recursos, al generar el archivo RDF los datos de esta columna se convertiran en el dato de la propiedad LABEL.
+                                Posteriormente el usuario debe espeficicar el nombre de la clase que identifique a todos los recursos contenidos en el archivo RDF que sera generado. El campo "Shapefile-path" puede quedar en blanco, este campo se utiliza para generar RDF de los Metadatos del ShapeFile, para este proceso se ha creado otro video tutorial.</p></td>
+                            
+                        </tr>
+                         <tr id="alternate">
+                            <td style="text-align: center"><img  src="imagenes/pluginTextFileOutput.png" ></td>
+                            <td style="text-align: justify">Este plugin permite indicar la ubicacion del archivo de salida, formato del archivo ( RDF: *.rdf ), codificacion (UTF-8), ademas, se debe indicar el nombre del campo proveniente de Geometry2RDF que contiene la informacion en formato RDF </td>
+                        </tr>
+                        </FONT>
+                    </table>  
+                    <p><FONT FACE="arial" SIZE=2>A continuacion se presenta un video donde se muestra el uso del Plugin Geometry2RDF
+                        en el entorno ETL de GeoKettle.</FONT>
+                    </p>
+                    <center>
+                    <iframe width="670" height="545"
+                            src="https://www.youtube.com/embed/kmlW2kAzBQM" allowfullscreen>
+                    </iframe>     
+                    </center>
+                    
+                </div>
+                
+                <div id="fragment-2">
+                    <P><FONT FACE="arial" SIZE=2>A partir de los 121 archivos ShapeFile se llevado a cabo la generacion de RDF 
+                        y se ha logrado los siguientes resultados</FONT></P>
+
+
+                    <table>
+                        <tr id="alternate">
+                            <td>Total de Archivos ShapeFile</td>
+                            <td style="text-align: center">121</td>
+                        </tr>
+                        <tr id="alternate">
+                            <td>Total de Archivos RDF GENERADOS</td>
+                            <td style="text-align: center">80</td>
+                        </tr>
+                        <tr id="alternate">
+                            <td>Numero de Tripletas</td>
+                            <td style="text-align: center">810764</td>
+                        </tr>
+                        <tr id="alternate">
+                            <td>Numero de Links SameAs entre fuentes locales</td>
+                            <td style="text-align: center">1421</td>
+                        </tr>
+                        <tr id="alternate">
+                            <td>Numero de Links SameAs con fuentes externas</td>
+                            <td style="text-align: center">111</td>
+                        </tr>
+
+                    </table>
+                    </br>
+                    <p><FONT FACE="arial" SIZE=2>Los resultados de la generacion de los archivos RDF a partir de los archivos shape se presentan en la siguiente tabla:</FONT>
+                    </p>
+                    </br>
+                    <iframe src="https://onedrive.live.com/embed?cid=3BFDFDA025D6D983&resid=3BFDFDA025D6D983%21315&authkey=AFiFAnHOIOMC1mY&em=2" width="865" height="1000" frameborder="1" scrolling="no"></iframe>
+                </div>
+                <div id="fragment-3">
+                    <p style="text-align: justify"><FONT FACE="arial" SIZE=2>
+                           Para encontrar o descubrir enlaces entre recursos que se encuentran en diferentes fuentes de informacion pero que
+                           hacen referencia al mismo objeto del mundo real se utiliza la herramienta Silk Workbench. </br>
+                           Esta herramienta permite encontrar duplicados de los recursos, en base a condiciones que el usuario puede especificar
+                           y decidir con que propiedades desea trabajar.Generalmente para encontrar los duplicados se puede hacer referencia a las etiquetas 
+                           de los recursos ( propiedad "Label" ), donde se compara los String de cada una de las etiquetas de los recursos de la fuente A con las etiquetas de los recursos 
+                           de la fuente B.</br>
+                           Basado en Heuristicas para descubrir duplicados de recursos hemos desarrollado plugins que permiten trabajar con la información geometrica de cada recurso. En este caso se realiza comparaciones
+                           segun la geometría, área o perímetro para asi encontrar duplicados apegados a un margen de error dado por el usuario</FONT>
+                    </p>
+                   <p style="text-align: justify"><FONT FACE="arial" SIZE=2>
+                        Sin importar el tipo de geometría (Puntos, Curvas o Polígonos), los plugins desarrollados obtienen la informacion del recurso que
+                        debe estar en el formato WKT para luego realizar las respectivas comparaciones y devolver como resultado links <b>SameAS</b></FONT>
+                    </p>
+                     <h3>Descripcion de los Plugis Desarrollados</h3>
+                     <table><FONT FACE="arial" SIZE=2>
+                         <tr id="alternate">
+                            <td style="text-align: center"><img  src="imagenes/silkPluginBuffer.png" with="120px" height="150px"></td>
+                            <td style="text-align: justify"> Este plugin permite encontrar relaciones <b>sameAs</b> entre diferentes recursos que esten relacionados con su geometría. En este caso
+                            , utilizando GEOTOOLS, se aplica la función buffer que permite saber si la geometría A contiene a la geometria B, dando como resultado la posibilidad de que se trate del
+                            mismo recurso del mundo real. El valor de buffer es ingresado por el usuario en unidades de Kilómetros.</td>
+                        </tr>
+                       <tr id="alternate">
+                           <td style="text-align: center"><img  src="imagenes/silkPluginArea.png" with="120px" height="150px"></td>
+                            <td style="text-align: justify">Este plugin tambien permite trabajar con las geometrías de los recursos. En este caso, utilizando GEOTOOLS, se analiza el área
+                            de cada par de recursos entrantes, comparando si tienen un valor aproximado. Tomando en cuenta la tolerancia dada por el usuario, en Kilómetros cuadrados, 
+                            se obtiene relaciones <b>sameAs</b> que indican la posibilidad de que se trate del mismo recurso del mundo real</td>
+                        </tr>
+                        <tr id="alternate">
+                            <td style="text-align: center"><img  src="imagenes/silkPluginPerimetro.png" with="120px" height="150px"></td>
+                            <td style="text-align: justify">En este plugin de igual manera que los anteriores tambien se trabaja con la información geométrica de cada recurso.
+                                En este caso, utilizando GEOTOOLS, se obtiene el perímetro de cada par de recursos entrantes y se los compara para verificar si tienen
+                                un valor aproximando. Consideranto el valor de tolerancia ingresado por el usuario en Kilómetros, se obtiene relaciones <b>sameAs</b>
+                                que indican la posibilidad de que se trata del mismo recurso del mundo real.
+                                
+                            </td>
+                            
+                        </tr>
+                        </FONT>
+                    </table>  
+                     </br>
+                     <h3>Video Demostrativo sobre el Uso de Silk Workbench</h3>
+                    <center>
+               <iframe width="640" height="390" src="https://www.youtube.com/embed/ndAuwJ3pfa0" frameborder="0" allowfullscreen></iframe>
+                    </center>
+                </div>
+                <div id="fragment-4">
+                    <p><FONT FACE="arial" SIZE=2>A continuación se muestra los resultados de la generación de links <i><b>"sameAs"</b></i>. Estos enlaces SameAS hacen referencia
+                        a recursos que se encuentran en diferentes fuentes (Archivos RDF o Sparql Endpoint) pero que se refieren 
+                        al mismo objeto del mundo real.</FONT></p>
+                    </br>
+                    </br>
+                    <iframe src="https://onedrive.live.com/embed?cid=3BFDFDA025D6D983&resid=3BFDFDA025D6D983%21318&authkey=AGCAkzk6g7R34Vk&em=2" width="865" height="900" frameborder="1" scrolling="no"></iframe>
+                    <iframe src="https://onedrive.live.com/embed?cid=3BFDFDA025D6D983&resid=3BFDFDA025D6D983%21317&authkey=ALMhxDSkODb8Fpc&em=2" width="865" height="400" frameborder="1" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
+        <script>
+            $("#tabs").tabs();
+        </script>
+
+    </body>
+</html>

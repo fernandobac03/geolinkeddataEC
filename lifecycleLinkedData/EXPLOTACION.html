@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Linked Data Life Cycle -  Explotacion</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <!--pARA CONTROLAR CIRCULO DE ACTIVIDADES-->
+        <style type="text/css">
+            table {
+                border-collapse: collapse;
+                margin: 1em auto;
+            }
+
+
+
+            nav {
+                position: relative;
+                top: 10px;
+                left: 140px;
+                font-family: helvetica, arial;
+            }
+            li {
+                list-style: none;
+            }
+            li > a[id|="ciclo"] {
+                position: absolute;
+                text-decoration: none;
+                width:95px;
+                height:80px;
+                border-radius:60%;
+                line-height:9.5em;
+                text-align:center;
+                text-orientation: auto;
+                font-family: helvetica, arial;
+                background-color: #2D6F81;
+            }
+            a.actual
+            {
+                font-family: helvetica, arial;
+                background-color: #792F2E !important;
+
+            }
+            li > a[id|="ciclo"]:link, li > a[id|="ciclo"]:visited {
+                color: #eee;
+                font-size: 9px;
+
+            }
+            a[id|="ciclo"]:hover {
+                font-size: 11px;
+                font-weight: bold;
+            }
+            #headtableleft
+            {
+                width: 40%;
+            }
+            #headtableright
+            {
+                width: 200px;
+            }
+            #firsttable2col {
+                font-size: medium;
+                width: 45%;
+            }
+            #firsttable1col {
+                font-size: medium;
+                width: 5%;
+
+            }
+            #droparea { width: 20px; height: 50px; padding: 6%; text-align: center; }
+        </style> 
+    </head>
+    <body>
+        <script>
+            // Your code goes here.
+            $(function() {
+                circle_radius = 80;
+                $links = $('nav ul.gallery li a');
+                total_links = $links.size();
+                $links.each(function(index) {
+                    $(this).attr('data-index', index);
+                    animateCircle($(this), 1);
+                });
+                $('ul.gallery > li a').hover(function() {
+                    animateCircle($(this), 1.2);
+                }, function() {
+                    animateCircle($(this), 1);
+
+                });
+
+                // let the gallery items be draggable
+                $("ul.gallery > li a").draggable({
+                    revert: "invalid", // when not dropped, the item will revert back to its initial position
+                    containment: "document",
+                    helper: "clone",
+                    cursor: "move"
+                });
+
+                // let the trash be droppable, accepting the gallery items
+                $("#droparea").droppable({
+                    accept: "ul.gallery > li a",
+                    activeClass: "ui-state-highlight",
+                    drop: function(event, ui) {
+                        //         alert('dropped');
+                        //deleteImage( ui.draggable );
+                    }
+                });
+
+
+                function animateCircle($link, expansion_scale) {
+                    index = $link.attr('data-index');
+                    radians = 2 * Math.PI * (index / total_links);
+                    x = -(Math.sin(radians) * circle_radius * expansion_scale);
+                    y = -(Math.cos(radians) * circle_radius * expansion_scale);
+                    $link.animate({
+                        top: x + 'px',
+                        left: y + 'px'
+                    }, 600);
+                }
+            });
+        </script>
+
+
+        <div>
+            <table align="left" id="tablehead">
+                <tr>
+                    <td id="headtableleft" style="border: 0">
+                        <nav>
+                            <div id="droparea">
+                                <a href="index.html"><img  src="imagenes/logordf.png" width="40px" height="40px"></a>
+                            </div>
+                            <ul class="gallery">
+                                <li><a id="ciclo" class="actual" href="EXPLOTACION.html" title="ACTIVIDAD NUMERO 5">EXPLOTACION</a></li>
+                                <li><a id="ciclo" href="ESPECIFICACION.html" title="ACTIVIDAD NUMERO 1">ESPECIFICACION</a></li>
+                                <li><a id="ciclo" href="MODELAMIENTO.html" title="ACTIVIDAD NUMERO 2">MODELAMIENTO</a></li>
+                                <li><a id="ciclo" href="GENERACION.html" title="ACTIVIDAD NUMERO 3">GENERACION</a></li>
+                                <li><a id="ciclo" href="PUBLICACION.html" title="ACTIVIDAD NUMERO 4">PUBLICACION</a></li>
+                            </ul>
+                        </nav>
+                    </td>
+                    <td id="headtableright"  style="border: 0">
+                        <a href="index.html"><img  src="imagenes/explotacionimgg.png" ></a>
+                    </td>
+                </tr></table>
+        </div>
+
+        <div align="left">
+            <table id="fisttable" align="left">
+                <tr>
+                    <td id="firsttable1col" style="border: 0">
+                        <!--        <img  src="imagenes/especificacionimg2.png" width="200" height="200"> -->
+                    </td>
+                    <td id="firsttable2col" style="border: 0; text-align: justify">
+                        <p><FONT FACE="arial" SIZE=2>La explotación de los datos se da una vez que estos se encuentren en el
+                            formato RDF y hayan sido cargados al servidor o Triple Store, pues, dicho servidor
+                            ofrece un SPARQL Endpoint al que un usuario se puede conectar desde el exterior y
+                            así poder consultar la información</FONT></p>
+                        <p><FONT FACE="arial" SIZE=2>Si se navega sobre el repositorio Parliament se puede ver
+                            toda la información subida desde los archivos *.rdf, dicha información es 
+                            visualizada mediante tablas, lo que permite al usuario entender la información con mayor facilidad. 
+                            También se puede hacer consultas sobre esta información, 
+                            utilizando el lenguaje de consulta SPARQL y GEOSPARQL.</FONT></p>
+                    </td>
+                </tr>
+            </table>  
+        </div>
+        </br>
+    <center>
+    <h2>SPARQL ENDPOINT</h2>
+  <div id="sparqlendpoint">
+            <iframe src="http://200.0.31.28:8080/parliament/query.jsp" width="900" height="800" frameborder="1" scrolling="yes"></iframe>
+        </div>
+        </br>
+        <h2>VISUALIZACION DE LA INFORMACION GEOESPACIAL</h2>
+        <iframe src="http://200.0.31.28:8081/map4rdf-0.0.3-OL-SNAPSHOT/#dashboard" width="900" height="700" frameborder="1" scrolling="no"></iframe>
+    </center>
+    </body>
+</html>
