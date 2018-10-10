@@ -1,6 +1,6 @@
 {
   "endpoint": { 
-       "url" : "http://apolo.utpl.edu.ec:8080/parliament/sparql",
+       "url" : "hhttp://localhost:8089/parliament/sparql",
        "maxResults": 10000
    }
 }
