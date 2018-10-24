@@ -1,0 +1,19 @@
+imagen
+
+pull:  docker pull nginx
+
+run:  docker run --name nginx -d -p 80:80 nginx
+
+
+
+archivo default.conf: ubicado en geold/geolinkeddataEC/nginx.default.conf (modificado)
+
+contiene la configuracion de redireccion hacia las apps.
+
+conf - redireccion -> reemplazar /etc/nginx/conf.d/default.conf 
+                      del contenedor nginx por   el archivo 
+                      default.conf modificado.
+
+comando para reemplazar:  
+docker cp /home/geold/geolinkeddataEC/nginx/default.conf nginx:/etc/nginx/conf.d/default.conf
+
