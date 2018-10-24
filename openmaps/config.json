@@ -1,6 +1,6 @@
 {
   "endpoint": { 
-       "url" : "hhttp://localhost:8089/parliament/sparql",
-       "maxResults": 10000
+       "url" : "http://linkeddata.ec/triplestore/parliament/sparql",
+       "maxResults": 1000
    }
 }
