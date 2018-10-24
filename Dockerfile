@@ -14,6 +14,7 @@ RUN apt-get -q -y update && apt-get -q -y upgrade && apt-get -q -y install \
 				wget \
 				python-dev \
 				libpq-dev \
+				unzip \ 
 				&& apt-get -q clean
 
 RUN ( apt-get update && DEBIAN_FRONTEND=noninteractive apt install -y -t jessie-backports  openjdk-8-jre-headless ca-certificates-java)
@@ -29,13 +30,34 @@ RUN rm -rf  /opt/tomcat/webapps/docs /opt/tomcat/webapps/examples /opt/tomcat/we
 RUN mkdir /opt/tomcat/webapps/ROOT 
 ADD / /opt/tomcat/webapps/ROOT/
 
+#####################################
+###download and install parliament###
+#####################################
+
+#RUN mkdir /opt/tomcat/bin/parliament
+#RUN mkdir /ParliamentKB
+#RUN wget -P /ParliamentKB/ http://semwebcentral.org/frs/download.php/555/ParliamentQuickStart-v2.7.10-gcc-64-ubuntu-15.10.zip
+#RUN unzip /ParliamentKB/ParliamentQuickStart-v2.7.10-gcc-64-ubuntu-15.10.zip -d /opt/tomcat/bin/parliament
+#RUN chown -R root:root /opt/tomcat/bin/parliament
+
+#RUN sed 's/kbDirectoryPath=./kbDirectoryPath=data/g' /opt/tomcat/bin/parliament/ParliamentConfig.txt > newparliamentconfig.txt
+#RUN mv newparliamentconfig.txt /opt/tomcat/bin/parliament/ParliamentConfig.txt
+#RUN cp /opt/tomcat/bin/parliament/bin/*.* /opt/tomcat/bin/parliament/
+
+#RUN cp /opt/tomcat/bin/parliament/webapps/parliament.war /opt/tomcat/webapps/
+
+#ADD /parliament/setenv.sh /opt/tomcat/bin
+
+############################
+###end install parliament###
+############################
 
 #Changing default tomcat port
-RUN sed 's/8080/80/g' /opt/tomcat/conf/server.xml > newserver.xml
+RUN sed 's/8080/8081/g' /opt/tomcat/conf/server.xml > newserver.xml
 RUN mv newserver.xml /opt/tomcat/conf/server.xml
 
 
-EXPOSE 80
+EXPOSE 8081
 
 COPY /start_tomcat.sh /
 RUN chmod +x /start_tomcat.sh
