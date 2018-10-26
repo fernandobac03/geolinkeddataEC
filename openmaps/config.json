@@ -1,6 +1,6 @@
 {
   "endpoint": { 
-       "url" : "http://linkeddata.ec/triplestore/parliament/sparql",
+       "url" : "http://linkeddata.ec/triplestore/repositories/linkedgeodataEC",
        "maxResults": 1000
    }
 }
