@@ -1,0 +1,27 @@
+version: "3"
+services:
+  site:
+    command: jekyll serve
+    image: jekyll/jekyll:latest
+    volumes: 
+      - /home/webwfs/web_wfs:/srv/jekyll:z
+      - /home/webwfs/web_wfs/vendor/bundle:/usr/local/bundle:z
+    ports:
+      - 4000:4000
+    networks:
+      - geold
+  nginx: 
+    image: nginx 
+    ports:
+      - 80:80
+    networks:
+      - geold
+  webgeold:
+    image: webgeold
+    ports: 
+      - 8081:8081
+    networks:
+      - geold
+networks:
+  geold:
+    driver: "bridge"
