@@ -4,8 +4,8 @@ services:
     command: jekyll serve
     image: jekyll/jekyll:latest
     volumes: 
-      - /home/webwfs/web_wfs:/srv/jekyll:z
-      - /home/webwfs/web_wfs/vendor/bundle:/usr/local/bundle:z
+      - /home/site_results_wfs:/srv/jekyll:z
+      - /home/site_results_wfs/vendor/bundle:/usr/local/bundle:z
     ports:
       - 4000:4000
     networks:
@@ -22,6 +22,14 @@ services:
       - 8081:8081
     networks:
       - geold
+  graphdb:
+    image: graphdb-free
+    volumes:
+      - /var/run/docker/volumes/graphdbvol/_data:/graphdb/data:z
+    ports:
+      - 7200:7200
+    networks:
+     - geold 
 networks:
   geold:
     driver: "bridge"
