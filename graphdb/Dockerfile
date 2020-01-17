@@ -29,7 +29,7 @@ RUN \
   rm -rf /knora
 
 # Set GraphDB Max and Min Heap size
-ENV GDB_HEAP_SIZE="2g"
+ENV GDB_HEAP_SIZE="3g"
 
 EXPOSE 7200
 CMD ["/graphdb/bin/graphdb"]

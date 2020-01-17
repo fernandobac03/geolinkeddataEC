@@ -34,13 +34,16 @@ ADD / /opt/tomcat/webapps/ROOT/
 ###download and install parliament###
 #####################################
 
-#RUN mkdir /opt/tomcat/bin/parliament
+RUN mkdir /opt/tomcat/bin/parliament
 #RUN mkdir /ParliamentKB
 #RUN wget -P /ParliamentKB/ http://semwebcentral.org/frs/download.php/555/ParliamentQuickStart-v2.7.10-gcc-64-ubuntu-15.10.zip
+
 #RUN unzip /ParliamentKB/ParliamentQuickStart-v2.7.10-gcc-64-ubuntu-15.10.zip -d /opt/tomcat/bin/parliament
 #RUN chown -R root:root /opt/tomcat/bin/parliament
 
 #RUN sed 's/kbDirectoryPath=./kbDirectoryPath=data/g' /opt/tomcat/bin/parliament/ParliamentConfig.txt > newparliamentconfig.txt
+
+
 #RUN mv newparliamentconfig.txt /opt/tomcat/bin/parliament/ParliamentConfig.txt
 #RUN cp /opt/tomcat/bin/parliament/bin/*.* /opt/tomcat/bin/parliament/
 

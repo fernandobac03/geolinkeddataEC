@@ -1,6 +1,6 @@
 {
   "endpoint": { 
-       "url" : "http://linkeddata.ec/triplestore/repositories/linkedgeodataEC",
+       "url" : "http://linkeddata.ec/triplestore/repositories/geolinkedataEC",
        "maxResults": 1000
    }
 }

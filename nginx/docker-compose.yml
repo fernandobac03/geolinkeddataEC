@@ -10,8 +10,27 @@ services:
       - 4000:4000
     networks:
       - geold
+  cntmysql:
+    build: ../../../docker-hmsis/docker-mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: hmsisroot
+      MYSQL_DATABASE: hmsis2
+    networks:
+      - geold
+  containermix:
+    build: ../../../docker-hmsis/core
+    ports:
+      - 8082:8080
+      - 3030:3030
+      - 8191:8191
+    environment:
+      ADMIN_PASSWORD: 1234
+    networks:
+      - geold
   nginx: 
-    image: nginx 
+    image: nginx:latest 
     ports:
       - 80:80
     networks:
@@ -25,11 +44,25 @@ services:
   graphdb:
     image: graphdb-free
     volumes:
-      - /var/run/docker/volumes/graphdbvol/_data:/graphdb/data:z
+      - /var/lib/docker/volumes/graphdbvol2/_data:/graphdb/data
     ports:
       - 7200:7200
     networks:
      - geold 
+  silk:
+    image: silk
+    volumes:
+      - /home/geold/geolinkeddataEC/silk/data:/root/.silk/workspace:z
+    ports:
+      - 9000:9000
+    networks:
+      - geold
+  evaluationlinksfront:
+    image: evaluationlinksfront
+    ports:
+      - 4200:4200
+    networks:
+      - geold 
 networks:
   geold:
     driver: "bridge"

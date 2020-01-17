@@ -1,0 +1,4 @@
+2. para ejeucar el docker compose sh runwithdocker-compose.sh, siempre con sudo por delante
+
+1. la carpeta _site fue creada manualmente con sudo
+
