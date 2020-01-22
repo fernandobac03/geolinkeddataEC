@@ -1,0 +1,6 @@
+información para ingresar como admin en graphdb de CEDIA
+
+usr: admin
+pass: cepraXI.18
+
+
